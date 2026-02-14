@@ -383,10 +383,9 @@ MIT License - see LICENSE file
 
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/ai-vision-agent-pro/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/ai-vision-agent-pro/discussions)
-- **Email**: support@yourdomain.com
-
+- **Issues**: [GitHub Issues](https://github.com/hassanzzzj/ai-vision-agent-pro/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/hassanzzzj/ai-vision-agent-pro/discussions)
+- **Email**: [Contact Me](mailto:ha082724@gmail.com?subject=GitHub%20Project%20Query)
 ---
 
 ## 🗺️ Roadmap
