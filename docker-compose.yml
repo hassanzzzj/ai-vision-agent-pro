@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # Backend Service (FastAPI + LangGraph)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.backend
+    container_name: ai-vision-backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    environment:
+      - ENVIRONMENT=production
+      - SILICONFLOW_API_KEY=sk-zmtcymmvajygjkhxmwhmkdqdoarfxkefkrfqrnmihqctkcgw
+      - SILICONFLOW_BASE_URL=${SILICONFLOW_BASE_URL:-https://api.siliconflow.cn/v1/images/generations}
+      - LANGFUSE_ENABLED=${LANGFUSE_ENABLED:-false}
+      - LANGFUSE_PUBLIC_KEY=${LANGFUSE_PUBLIC_KEY:-}
+      - LANGFUSE_SECRET_KEY=${LANGFUSE_SECRET_KEY:-}
+      - LANGFUSE_HOST=${LANGFUSE_HOST:-https://cloud.langfuse.com}
+      - FRONTEND_URL=http://localhost:5173
+    volumes:
+      - ./backend:/app
+    restart: unless-stopped
+    networks:
+      - ai-vision-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Frontend Service (React + Vite)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
+    container_name: ai-vision-frontend
+    ports:
+      - "5173:80"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - ai-vision-network
+
+networks:
+  ai-vision-network:
+    driver: bridge
+
+volumes:
+  backend-data:
